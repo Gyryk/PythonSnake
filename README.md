@@ -116,3 +116,47 @@ This is the logic for increasing the score, as well as the speed, whenever the s
         return False
 ```
 This boolean function checks whether the coordinates of the snake's head are the same as those of any of the boundary blocks, and if they are then it returns True.
+
+```
+    def _move(self, direction):
+        x = self.head.x
+        y = self.head.y
+
+        if direction == Direction.RIGHT:
+            x += BLOCK_SIZE
+        elif direction == Direction.LEFT:
+            x -= BLOCK_SIZE
+        elif direction == Direction.UP:
+            y -= BLOCK_SIZE
+        elif direction == Direction.DOWN:
+            y += BLOCK_SIZE
+
+        self.head = point(x, y)
+```
+The move function takes in the direction to move in as a parameter and depending on the direction specified, it changes the coordinates of the snake by 1 block at a time.
+
+```
+    def _update_ui(self):
+        # Background
+        for blockX in range(BLOCK_SIZE, 1280 - BLOCK_SIZE, BLOCK_SIZE):
+            for blockY in range(BLOCK_SIZE, 960 - BLOCK_SIZE, BLOCK_SIZE):
+                pygame.draw.rect(self.display, LIME, pygame.Rect(blockX, blockY, BLOCK_SIZE, BLOCK_SIZE))
+                pygame.draw.rect(self.display, WHITE, pygame.Rect(blockX + 6, blockY + 6, 4, 4))
+
+        # Snake
+        for p in self.snake:
+            pygame.draw.rect(self.display, BLUE, pygame.Rect(p.x, p.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(self.display, CYAN, pygame.Rect(p.x+2, p.y+2, BLOCK_SIZE-4, BLOCK_SIZE-4))
+            pygame.draw.rect(self.display, BLUE, pygame.Rect(p.x+4, p.y+4, BLOCK_SIZE-8, BLOCK_SIZE-8))
+
+        # Apple
+        pygame.draw.rect(self.display, CRIMSON, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x+2, self.food.y+2, BLOCK_SIZE-4, BLOCK_SIZE-4))
+        pygame.draw.rect(self.display, GREEN, pygame.Rect(self.food.x+1, self.food.y+1, 3, 6))
+
+        # Send Updates
+        text = font.render("Score: " + str(self.score), True, BLACK)
+        self.display.blit(text, [32, 32])
+        pygame.display.flip()
+```
+This function draws the entire dotted matrix pattern in the background behind the snake, draws the design for each block of the snake, draws a set of blocks that resembles an apple, and finally renders the score in the specified font. After doing all of this it sends these pixels to draw over to PyGame to update the window. This is called every frame.
