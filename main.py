@@ -81,7 +81,7 @@ class snakeGame:
                              pygame.Rect(1280 - random.randint(10, 14), block + random.randint(0, 8),
                                          random.randint(1, 4), random.randint(1, 6)))
 
-        # Initialise Game
+        # Initialise Game with starting variables
         self.direction = Direction.RIGHT
         self.head = point(self.w / 2, self.h / 2)
         self.snake = [self.head,
