@@ -6,6 +6,7 @@
 - There isn't anything too complex about the coding of this, it's just a simple program made with PyGame, just like [Space Invaders](https://www.github.com/Gyryk/SpaceInvaders)
 <br>
 
+## Documentation
 ```
 scores = []
 
