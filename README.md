@@ -10,7 +10,6 @@
 ```
 scores = []
 
-# Start Executes
 if __name__ == '__main__':
     game = snakeGame()
 
@@ -25,4 +24,13 @@ if __name__ == '__main__':
                 total += n
             print('Total Score:', str(total))
             game = snakeGame()
+```
+An array of past scores is created and every time you collide with something, causing the game to end, the score from the game is added to the array and a new total is calculated to be output in the terminal. A new game is then started immediately after. This code is run immediately after you run the command `python main.py` in your terminal
+
+```
+class Direction(Enum):
+    RIGHT = 1
+    LEFT = 2
+    UP = 3
+    DOWN = 4
 ```
