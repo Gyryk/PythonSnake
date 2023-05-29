@@ -34,3 +34,4 @@ class Direction(Enum):
     UP = 3
     DOWN = 4
 ```
+The direction that the snake is moving in is stored as an enumerated class where there is a fixed set of constants that the direction can be part of
