@@ -25,7 +25,7 @@ if __name__ == '__main__':
             print('Total Score:', str(total))
             game = snakeGame()
 ```
-An array of past scores is created and every time you collide with something, causing the game to end, the score from the game is added to the array and a new total is calculated to be output in the terminal. A new game is then started immediately after. This code is run immediately after you run the command `python main.py` in your terminal
+An array of past scores is created and every time you collide with something, causing the game to end, the score from the game is added to the array and a new total is calculated to be output in the terminal. A new game is then started immediately after. This code is run immediately after you run the command `python main.py` in your terminal.
 
 ```
 class Direction(Enum):
@@ -34,7 +34,7 @@ class Direction(Enum):
     UP = 3
     DOWN = 4
 ```
-The direction that the snake is moving in is stored as an enumerated class, where there is a fixed set of constants that said direction can be a part of. This is an efficient way to set the direction without having to worry about case sensitive variables
+The direction that the snake is moving in is stored as an enumerated class, where there is a fixed set of constants that said direction can be a part of. This is an efficient way to set the direction without having to worry about case sensitive variables.
 
 ```
         for block in range(0, 1280, BLOCK_SIZE):
@@ -72,5 +72,47 @@ These blocks serve as the visible boundary at the end of the window.
 The same calculations etc. are done, only vertically so as to create the other walls.
 
 ```
+    def _place_food(self):
+        x = random.randint(BLOCK_SIZE, (self.w-BLOCK_SIZE*2)//BLOCK_SIZE) * BLOCK_SIZE
+        y = random.randint(BLOCK_SIZE, (self.h-BLOCK_SIZE*2)//BLOCK_SIZE) * BLOCK_SIZE
+        self.food = point(x, y)
+        if self.food in self.snake:
+            self._place_food()
+```
+Find a valid block coordinate in terms of x and y directions, between the first block and the last block. Subsequently, set the position of the food at the point with those coordinates. If the snake eats the food, the function is called again.
 
 ```
+game_over = False
+        if self._is_collision():
+            game_over = True
+            return game_over, self.score
+```
+This small piece of code is responsible for checking whether there is a collision in each frame of the game, ending the game if there is one.
+
+```
+        if self.head == self.food:
+            self.score += 1
+            speed += 0.5
+            self._place_food()
+        else:
+            self.snake.pop()
+        
+        self.clock.tick(speed)
+```
+This is the logic for increasing the score, as well as the speed, whenever the snake eats the food. Otherwise the snake's last block is deleted to avoid drawing extra blocks, since a new one is created at the head. The speed is input in the clock's tickrate function to change how fast the game goes.
+
+```
+    def _is_collision(self):
+        # Snake hits horizontal boundary
+        if self.head.x > self.w - (BLOCK_SIZE*2) or self.head.x < BLOCK_SIZE:
+            return True
+        # Snake hits vertical boundary
+        if self.head.y > self.h - (BLOCK_SIZE*2) or self.head.y < BLOCK_SIZE:
+            return True
+        # Snake hits body
+        if self.head in self.snake[1:]:
+            return True
+
+        return False
+```
+This boolean function checks whether the coordinates of the snake's head are the same as those of any of the boundary blocks, and if they are then it returns True.
