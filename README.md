@@ -5,7 +5,8 @@
 - It's quite a simple, and classic, game which you shouldn't have much problem getting the hang of and then playing in your downtime. Controls are arrow keys
 - There isn't anything too complex about the coding of this, it's just a simple program made with PyGame, just like [Space Invaders](https://www.github.com/Gyryk/SpaceInvaders)
 
-`scores = []
+```
+scores = []
 
 # Start Executes
 if __name__ == '__main__':
@@ -21,4 +22,5 @@ if __name__ == '__main__':
             for n in scores:
                 total += n
             print('Total Score:', str(total))
-            game = snakeGame()`
+            game = snakeGame()
+```
