@@ -1,8 +1,10 @@
 # Import Libraries
+import os
 import pygame
 import random
 from enum import Enum
 from collections import namedtuple
+from playsound import playsound
 
 pygame.init()
 
@@ -81,7 +83,7 @@ class snakeGame:
                              pygame.Rect(1280 - random.randint(10, 14), block + random.randint(0, 8),
                                          random.randint(1, 4), random.randint(1, 6)))
 
-        # Initialise Game with starting variables
+        # Initialise Game with starting values
         self.direction = Direction.RIGHT
         self.head = point(self.w / 2, self.h / 2)
         self.snake = [self.head,
@@ -143,6 +145,8 @@ class snakeGame:
         if self.head == self.food:
             self.score += 1
             speed += 0.5
+            fullPath: str = fr"{os.getcwd()}\{'eat'}.{'wav'}".replace("\\", "/")
+            playsound(fullPath)
             self._place_food()
         else:
             self.snake.pop()
@@ -157,12 +161,18 @@ class snakeGame:
     def _is_collision(self):
         # Snake hits horizontal boundary
         if self.head.x > self.w - (BLOCK_SIZE*2) or self.head.x < BLOCK_SIZE:
+            fullPath: str = fr"{os.getcwd()}\{'wall'}.{'wav'}".replace("\\", "/")
+            playsound(fullPath)
             return True
         # Snake hits vertical boundary
         if self.head.y > self.h - (BLOCK_SIZE*2) or self.head.y < BLOCK_SIZE:
+            fullPath: str = fr"{os.getcwd()}\{'wall'}.{'wav'}".replace("\\", "/")
+            playsound(fullPath)
             return True
         # Snake hits body
         if self.head in self.snake[1:]:
+            fullPath: str = fr"{os.getcwd()}\{'death'}.{'wav'}".replace("\\", "/")
+            playsound(fullPath)
             return True
 
         return False
