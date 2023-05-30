@@ -82,29 +82,37 @@ This small piece of code is responsible for checking whether there is a collisio
 if self.head == self.food:
     self.score += 1
     speed += 0.5
+    fullPath: str = fr"{os.getcwd()}\{'eat'}.{'wav'}".replace("\\", "/")
+    playsound(fullPath)
     self._place_food()
 else:
     self.snake.pop()
         
 self.clock.tick(speed)
 ```
-This is the logic for increasing the score, as well as the speed, whenever the snake eats the food. Otherwise the snake's last block is deleted to avoid drawing extra blocks, since a new one is created at the head. The speed is input in the clock's tickrate function to change how fast the game goes.
+This is the logic for increasing the score, as well as the speed, whenever the snake eats the food. Otherwise the snake's last block is deleted to avoid drawing extra blocks, since a new one is created at the head. The speed is input in the clock's tickrate function to change how fast the game goes. The sound effect is also played through this.
 
 ```
 def _is_collision(self):
     # Snake hits horizontal boundary
     if self.head.x > self.w - (BLOCK_SIZE*2) or self.head.x < BLOCK_SIZE:
+        fullPath: str = fr"{os.getcwd()}\{'wall'}.{'wav'}".replace("\\", "/")
+        playsound(fullPath)
         return True
     # Snake hits vertical boundary
     if self.head.y > self.h - (BLOCK_SIZE*2) or self.head.y < BLOCK_SIZE:
+        fullPath: str = fr"{os.getcwd()}\{'wall'}.{'wav'}".replace("\\", "/")
+        playsound(fullPath)
         return True
     # Snake hits body
     if self.head in self.snake[1:]:
+        fullPath: str = fr"{os.getcwd()}\{'death'}.{'wav'}".replace("\\", "/")
+        playsound(fullPath)
         return True
 
     return False
 ```
-This boolean function checks whether the coordinates of the snake's head are the same as those of any of the boundary blocks, and if they are then it returns True.
+This boolean function checks whether the coordinates of the snake's head are the same as those of any of the boundary blocks, and if they are then it returns True. It also decides which sound effect to play depending on the manner of the game ending.
 
 ```
 def _move(self, direction):
